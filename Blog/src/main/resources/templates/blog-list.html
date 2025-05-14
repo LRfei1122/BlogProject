@@ -33,7 +33,7 @@
 						<li class="nav__item"><a th:href="@{#}">Home</a></li>
 						<li class="nav__item"><a th:href="@{#}">Blog Register</a></li>
 						<li class="nav__item"><a th:href="@{#}">Logout</a></li>
-                    </ul>
+					</ul>
 				</nav>
 			</div>
 		</div>
@@ -56,7 +56,6 @@
 						</div>
 						<img th:src="@{/blog-img/{items}(items=${blog.blogImage})}">
 						<div class="colum__box">
-							<p th:text="${#temporals.format(blog.registerDate, 'yyyy/MM/dd')}"></p>
 							<p th:text=" ${blog.blogTitle}"></p>
 						</div>
 					</a>
