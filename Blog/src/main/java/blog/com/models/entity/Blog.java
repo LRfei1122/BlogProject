@@ -5,9 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+//@Entity このクラスがデータベースのテーブルと対応することを宣言します。
+//クラス名（Blog）= テーブル名（blog）
 @Entity
 public class Blog {
+	// tableのPRIMARY KEY
 	@Id
+	// データベースによって、IDが自動増加されるように設定
 	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	// pgAdminのblogテーブルの設定

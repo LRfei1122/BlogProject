@@ -34,12 +34,9 @@ public class AccountRegisterController {
 	/*
 	 * @PostMapping 「localhost:8080/login」に送信されるPOSTリクエストを処理することを表す。
 	 * POSTメソッドは、個人情報や大量のデータをサーバに送信するために使用する。
-	 * 
 	 * 入力したデータをサーバに送信するために、<input> の name 属性でパラメータ名を設定する。 Ex:<form>の<input name
 	 * ="email">と完全一致させる。
-	 * 
 	 * @RequestParam このようなパラメータを持つことを示し。
-	 * 
 	 */
 	public String accountRegisterProcess(@RequestParam String userName, @RequestParam String email,
 			@RequestParam String password) {

@@ -34,13 +34,14 @@ public class AccountLoginController {
 	}
 
 	// Login処理
-	//@PostMapping 「localhost:8080/login」に送信されるPOSTリクエストを処理することを表す。
+	// @PostMapping 「localhost:8080/login」に送信されるPOSTリクエストを処理することを表す。
 	@PostMapping("/account/login/process")
 	public String accountLoginProcess(@RequestParam String email, @RequestParam String password) {
 		Account account = accountService.loginCheck(email, password);
 		if (account == null) {
 			return "login.html";
 		} else {
+			session.setAttribute("account", account);
 			return "redirect:/blog/list";
 		}
 	}
