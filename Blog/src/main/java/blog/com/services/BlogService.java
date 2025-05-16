@@ -26,4 +26,30 @@ public class BlogService {
 		}
 	}
 
+	// blogを作成する時の処理
+	public boolean createBlog(String blogTitle, String categoryName, String article, String blogImage, Long accountId) {
+		if (blogDao.findByBlogTitle(blogTitle) == null) {
+			// もし、同じタイトルのblogがない DaoクラスのfindByBlogTitle
+			// blogTitle==null
+			blogDao.save(new Blog(blogTitle, categoryName, blogImage, article, accountId));
+			// 新しblogを作る
+			return true;
+		} else {
+			// そうでない、findByBlogTitleの情報をcontrollerに渡す
+			return false;
+		}
+	}
+
+	// 編集画面を表示する時のcheck
+	public Blog blogEditCheck(Long blogId) {
+		if (blogId == null) {
+			// もしblogId == nullならば、nullを返す
+			return null;
+		} else {
+			// そうでない
+			// DaoクラスのfindByBlogIdを使って、Controllerに渡す
+			return blogDao.findByBlogId(blogId);
+		}
+	}
+
 }

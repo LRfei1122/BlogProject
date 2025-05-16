@@ -48,7 +48,7 @@ public class BlogRegisterController {
 	// MultipartFile fileインターフェース
 	// Blog 編集処理
 	@PostMapping("/account/blog/register/process")
-	public String accountBlogRegisterProcess(@RequestParam String blogTitle, @RequestParam String category,
+	public String accountBlogRegisterProcess(@RequestParam String blogTitle, @RequestParam String categoryName,
 			@RequestParam MultipartFile blogImage, @RequestParam String blogDetail) {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
@@ -61,18 +61,23 @@ public class BlogRegisterController {
 			 */
 			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 					+ blogImage.getOriginalFilename();
-			
-			/*Files.copy()を使う時、多様な問題が起こる可能性があるため
-			 * try catchを使う。
+
+			/*
+			 * Files.copy()を使う時、多様な問題が起こる可能性があるため try catchを使う。
 			 */
-			//blog-imgへcopyする処理
+			// blog-imgへcopyする処理
 			try {
-				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img" + fileName));
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(blogService.)
-			
+			if (blogService.createBlog(blogTitle, categoryName, blogDetail, fileName, account.getAccountId())) {
+				// もし、同じ物がなかったら保存
+				return "redirect:/blog/list";
+			} else {
+				// そうでない 登録画面に止まる
+				return "redirect:/blog/register";
+			}
 
 		}
 

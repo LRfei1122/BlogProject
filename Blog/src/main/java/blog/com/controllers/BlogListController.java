@@ -26,6 +26,7 @@ public class BlogListController {
 
 	@GetMapping("/blog/list")
 	public String getBlogList(Model model) {
+		// sessionからloginしてる人の情報をadminという変数に格納
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
 			return "redirect:/account/login";

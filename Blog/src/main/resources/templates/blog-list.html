@@ -43,7 +43,7 @@
 	<main>
 		<section class="first-view-section js-cherry">
 			<img th:src="@{/img/cherry.jpg}" alt="">
-			<h2 class="cherry-card" th:text="@{#}"></h2>
+			<h2 class="cherry-card" th:text="Welcome+' '+${accountName}"></h2>
 			<img th:src="@{/img/cherry.jpg}" alt="">
 		</section>
 		<section class="blog-list-section">
@@ -52,7 +52,7 @@
 				<article class="blog-topic-article" th:each="blog:${blogList}">
 					<a th:href="@{/account/blog/edit/{blogId}(blogId=${blog.blogId})}" class="blog-colum">
 						<div class="blog-colum-category">
-							<p th:text=" ${blog.category}"></p>
+							<p th:text=" ${blog.categoryName}"></p>
 						</div>
 						<img th:src="@{/blog-img/{items}(items=${blog.blogImage})}">
 						<div class="colum__box">

@@ -24,4 +24,12 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	// すべてのレコードを読み
 	List<Blog> findAll();
 
+	// SELECT * FROM blog WHERE blog_title =?
+	// blogの登録check 同じタイトルが登録しないようにする
+	Blog findByBlogTitle(String logTitle);
+
+	// SELECT * FROM products WHERE blog_id =?
+	// 編集画面を表示際に使用
+	Blog findByBlogId(Long blogId);
+
 }
