@@ -49,8 +49,10 @@ public class BlogRegisterController {
 	// Blog 編集処理
 	@PostMapping("/account/blog/register/process")
 	public String accountBlogRegisterProcess(@RequestParam String blogTitle, @RequestParam String categoryName,
-			@RequestParam MultipartFile blogImage, @RequestParam String blogDetail) {
+			@RequestParam MultipartFile blogImage, @RequestParam String article) {
+		// sessionからloginしてる人の情報をaccountという変数に格納
 		Account account = (Account) session.getAttribute("account");
+		// もしaccount == null、loginにredirect
 		if (account == null) {
 			return "redirect:/account/login";
 		} else {
@@ -71,7 +73,7 @@ public class BlogRegisterController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if (blogService.createBlog(blogTitle, categoryName, blogDetail, fileName, account.getAccountId())) {
+			if (blogService.createBlog(blogTitle, categoryName, article, fileName, account.getAccountId())) {
 				// もし、同じ物がなかったら保存
 				return "redirect:/blog/list";
 			} else {

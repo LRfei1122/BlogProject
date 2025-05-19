@@ -6,11 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import blog.com.models.entity.Blog;
+import jakarta.transaction.Transactional;
 
 //Daoはinterface作成する時はJpaRepositoryをaddする
 //User-Controller-Service-"Dao"-teble
 //永続層（Repository）データベースを直接操作して、永続的な操作を行う。
 @Repository
+@Transactional
+/*
+ * 大事な物、データを丸ごと処理する
+ * saveやdeleteなどことに対して重要
+ * 全て消す、もしできないなら、そのまま置いて
+ */
 public interface BlogDao extends JpaRepository<Blog, Long> {
 //entityのBlogをimport、PKのLongを書く
 
@@ -32,4 +39,7 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	// 編集画面を表示際に使用
 	Blog findByBlogId(Long blogId);
 
+	// DELETE FROM blog WHERE blog_id =?
+	// 削除使用
+	void deleteByBlogId(Long blogId);
 }

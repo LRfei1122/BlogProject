@@ -1,5 +1,11 @@
 package blog.com.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +27,9 @@ public class BlogEditController {
 	@Autowired
 	private HttpSession session;
 
-	@GetMapping("/blog/edit/{blogId}")
+	@GetMapping("/account/blog/edit/{blogId}")
 	public String getBlogEditPage(@PathVariable Long blogId, Model model) {
-		// sessionからloginしてる人の情報をadminという変数に格納
+		// sessionからloginしてる人の情報をaccountという変数に格納
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
 			// もしaccount == null、loginにredirect
@@ -36,22 +42,40 @@ public class BlogEditController {
 				return "redirect:/blog/list";
 			} else {
 				// そうでない場合、編集画面に編集する内容を渡す
+				model.addAttribute("accountName", account.getAccountName());
+				model.addAttribute("blog", blog);
 				return "blog-edit.html";
 			}
 
 		}
 	}
 
-	@PostMapping("/account/blog/update")
+	// Blog 編集処理
+	@PostMapping("/blog/edit/process")
 	public String blogUpdate(@RequestParam String blogTitle, @RequestParam String categoryName,
-			@RequestParam MultipartFile blogImage, @RequestParam String blogDetail, @RequestParam Long blogId) {
-		// sessionからloginしてる人の情報をadminという変数に格納
+			@RequestParam MultipartFile blogImage, @RequestParam String article, @RequestParam Long blogId) {
+		// sessionからloginしてる人の情報をaccountという変数に格納
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
 			// もしaccount == null、loginにredirect
-			return "redirect://account/login";
+			return "redirect:/account/login";
 		} else {
+			// そうでない、fileの名前を取得
+			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
+					+ blogImage.getOriginalFilename();
 
+			// blog-imgへcopyする処理
+			// try catch
+			try {
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (blogService.blogUpdate(blogId, blogTitle, categoryName, fileName, article, account.getAccountId())) {
+				return "redirect:/blog/list";
+			} else {
+				return "redirect:/blog/edit";
+			}
 		}
 	}
 

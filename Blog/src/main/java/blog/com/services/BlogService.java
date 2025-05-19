@@ -52,4 +52,34 @@ public class BlogService {
 		}
 	}
 
+	// 編集のデータ更新用
+	public boolean blogUpdate(Long blogId, String blogTitle, String categoryName, String blogImage, String article,
+			Long accountId) {
+		if (blogId == null) {
+			return false;
+		} else {
+			Blog blog = blogDao.findByBlogId(blogId);
+			blog.setBlogTitle(blogTitle);
+			blog.setCategoryName(categoryName);
+			blog.setBlogImage(blogImage);
+			blog.setArticle(article);
+			blog.setAccountId(accountId);
+			blogDao.save(blog);
+			return true;
+		}
+	}
+
+	// 削除処理のcheck
+	// もし、controllerからもらった blogIdがあれば
+	// 削除できないこと false
+	// そうでない、deleteByblogIdを使用して商品の削除
+	public boolean deleteByBlog(Long blogId) {
+		if (blogId == null) {
+			return false;
+		} else {
+			blogDao.deleteByBlogId(blogId);
+			return true;
+		}
+	}
+
 }
