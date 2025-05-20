@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import blog.com.models.dao.AccountDao;
 import blog.com.models.entity.Account;
 
+//User-Controller-"Service"-Dao-teble
+//サービス層（Service）：DAO層をくみあわせて使用し、controllerへ利用可能なserviceを提供。
 @Service
 public class AccountService {
 	// AdminDao呼び出す
@@ -25,9 +27,14 @@ public class AccountService {
 			return false;
 		}
 	}
+	
 	// login処理
-
 	public Account loginCheck(String accountEmail, String password) {
+		/*
+		 * userはメールとpasswordを入力、
+		 * デーブルの中で確認する
+		 * もしaccountがない、null
+		 */
 		Account account = accountDao.findByAccountEmailAndPassword(accountEmail, password);
 		if (account == null) {
 			return null;

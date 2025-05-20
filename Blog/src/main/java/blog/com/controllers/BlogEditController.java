@@ -33,9 +33,9 @@ public class BlogEditController {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
 			// もしaccount == null、loginにredirect
-			return "redirect://account/login";
+			return "redirect:/account/login";
 		} else {
-			// 編集画面に表示される情報を変数blogに格納
+			// 編集画面に表示される情報をblogに格納
 			Blog blog = blogService.blogEditCheck(blogId);
 			if (blog == null) {
 				// blog == nullならば、blog listに戻す
@@ -44,6 +44,7 @@ public class BlogEditController {
 				// そうでない場合、編集画面に編集する内容を渡す
 				model.addAttribute("accountName", account.getAccountName());
 				model.addAttribute("blog", blog);
+				// blog-edit画面表示
 				return "blog-edit.html";
 			}
 
@@ -61,6 +62,10 @@ public class BlogEditController {
 			return "redirect:/account/login";
 		} else {
 			// そうでない、fileの名前を取得
+			/*
+			 * fileの名前は重複にならないため "yyyy-MM-dd-HH-mm-ss"のような、時間で設定する。 SimpleDateFormatは時間の形
+			 * getOriginalFilename()はfile元の名前 （時間＋元の名前）
+			 */
 			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date())
 					+ blogImage.getOriginalFilename();
 
@@ -72,8 +77,10 @@ public class BlogEditController {
 				e.printStackTrace();
 			}
 			if (blogService.blogUpdate(blogId, blogTitle, categoryName, fileName, article, account.getAccountId())) {
+				// もし、同じ物がなかったら保存
 				return "redirect:/blog/list";
 			} else {
+				// そうでない 編集画面に止まる
 				return "redirect:/blog/edit";
 			}
 		}
