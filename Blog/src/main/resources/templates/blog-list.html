@@ -54,7 +54,7 @@
 						<div class="blog-colum-category">
 							<p th:text=" ${blog.categoryName}"></p>
 						</div>
-						<img th:src="@{/blog-img/{items}(items=${blog.blogImage})}">
+						<img th:src="@{/images/{items}(items=${blog.blogImage})}">
 						<div class="colum__box">
 							<p th:text=" ${blog.blogTitle}"></p>
 						</div>

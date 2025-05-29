@@ -72,7 +72,7 @@ public class BlogEditController {
 			// blog-imgへcopyする処理
 			// try catch
 			try {
-				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+				Files.copy(blogImage.getInputStream(), Path.of("./images/" + fileName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

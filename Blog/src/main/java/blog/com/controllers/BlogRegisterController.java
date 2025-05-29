@@ -69,10 +69,11 @@ public class BlogRegisterController {
 			 */
 			// blog-imgへcopyする処理
 			try {
-				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+				Files.copy(blogImage.getInputStream(), Path.of("./images/" + fileName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			// createBlogのcreateBlogを呼び出す
 			if (blogService.createBlog(blogTitle, categoryName, article, fileName, account.getAccountId())) {
 				// もし、同じ物がなかったら保存
 				return "redirect:/blog/list";
